@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg>
+<svg width="300px" height="100px" viewBox="0 0 300 100"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"
+     xmlns:xlink="http://www.w3.org/1999/xlink" >
+     
+    <rect x="0" y="0"
+         width="300" height="100"
+         fill="none" stroke="black" stroke-width="1" />
+
+  <text x="50" y="60" font-family="Verdana" font-size="55" fill="black" >
+    Frame 1
+    <set id="show_frame0" attributeName="visibility" attributeType="CSS" to="visible"
+         begin="0ms; hide_frame3.end" dur="300ms" fill="freeze"/>
+    <set id="hide_frame0" attributeName="visibility" attributeType="CSS" to="hidden"
+         begin="show_frame0.end" dur="1ms" fill="freeze"/>
+  </text>
+  
+  <text x="50" y="60" font-family="Verdana" font-size="55" fill="red" visibility="hidden">
+    Frame 2
+    <set id="show_frame1" attributeName="visibility" attributeType="CSS" to="visible"
+         begin="hide_frame0.end" dur="300ms" fill="freeze"/>
+    <set id="hide_frame1" attributeName="visibility" attributeType="CSS" to="hidden"
+         begin="show_frame1.end" dur="1ms" fill="freeze"/>
+  </text>
+  
+  <text x="50" y="60" font-family="Verdana" font-size="55" fill="purple" visibility="hidden">
+    Frame 3
+    <set id="show_frame2" attributeName="visibility" attributeType="CSS" to="visible"
+         begin="hide_frame1.end" dur="300ms" fill="freeze"/>
+    <set id="hide_frame2" attributeName="visibility" attributeType="CSS" to="hidden"
+         begin="show_frame2.end" dur="1ms" fill="freeze"/>
+  </text>
+  
+  <text x="50" y="60" font-family="Verdana" font-size="55" fill="blue" visibility="hidden">
+    Frame 4
+    <set id="show_frame3" attributeName="visibility" attributeType="CSS" to="visible"
+         begin="hide_frame2.end" dur="300ms" fill="freeze"/>
+    <set id="hide_frame3" attributeName="visibility" attributeType="CSS" to="hidden"
+         begin="show_frame3.end" dur="300ms" fill="freeze"/>
+  </text>
+</svg>
+

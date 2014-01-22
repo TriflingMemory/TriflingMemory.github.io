@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>Frame based SVG animation - Insignificant
+    </title>
+    <link rel="alternate" href="http://localhost:8080/feed.xml" type="application/rss+xml" title="Some infrequently updated blog">
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body class="article-detail">
+    <header class="header">
+      <div class="content-wrap">
+        <h1>Frame based SVG animation</h1>
+        <p class="author">Written by <span class="author"><a href="mailto:BM-2cXGurRyZr6A88Vdxqu73J1TdspXHhSNo7@bitmessage.ch">Trifling Memory</a></span>
+        </p>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article">
+          <section class="content"><p><span class="caps">SVG</span> is very powerful. You could embed different image types like jpeg’s and png’s in it. Svg supports animation too, using these techniques it is possible to do crazy things like make animated jpeg’s. In this post I will show you how it is possible to create frame based animations in&nbsp;svg.</p>
+<p><img src="/articles/frame-animation-svg/bouncing_ball.svg" alt="A ball bouncing up and down"></p>
+<p><span class="more"></span></p>
+<p>First I’ll show how to embed rasters in svg and how to animate in svg. In the last step we combine both to make frame based animation like gif’s or&nbsp;video’s.</p>
+<h2 id="adding-rasters-to-the-svg">Adding rasters to the&nbsp;<span class="caps">SVG</span></h2>
+<p>Svg is a text based format but supports embedding binary data using base64 encoding. The image below is a png embedded in a&nbsp;svg.</p>
+<p><img src="/articles/frame-animation-svg/derp.svg" alt="Derpface"></p>
+<pre><code class="lang-xml"><span class="tag">&lt;<span class="title">svg</span> <span class="attribute">width</span>=<span class="value">"320"</span> <span class="attribute">height</span>=<span class="value">"240"</span>
+     <span class="attribute">xmlns</span>=<span class="value">"http://www.w3.org/2000/svg"</span>
+     <span class="attribute">xmlns:xlink</span>=<span class="value">"http://www.w3.org/1999/xlink"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">image</span> <span class="attribute">id</span>=<span class="value">"image_0"</span> <span class="attribute">x</span>=<span class="value">"0"</span> <span class="attribute">y</span>=<span class="value">"0"</span> <span class="attribute">width</span>=<span class="value">"320"</span> <span class="attribute">height</span>=<span class="value">"240"</span>
+         <span class="attribute">xlink:href</span>=<span class="value">"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUAAAADwAQMAAABL4y8oAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QwaCCwTK7yEYwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAGUExURQAAAP///6XZn90AAABmSURBVGje7dYxDkBgDIDROoEjuKojG00qYhMRkd9A37c1eXPbyJsFCIJgc7jE1otwH7tqsM+cQLA5HHIGwa/Di0UKtoHOcBV46FfQww6CIAiCZeAYJ3UgCIKPoI0LgiAIgiAI1oIrEOcBrWPcEnYAAAAASUVORK5CYII="</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">image</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">svg</span>&gt;</span></code></pre>
+<p>Pretty straightforward. Lets move to&nbsp;animation.</p>
+<h2 id="time-based-svg-animations">Time based svg&nbsp;animations</h2>
+<p><span class="caps">SVG</span> are normally made out of a set of graphical vector elements like lines curves and other geometrical shapes. To animate the elements you add a <code>&lt;animate&gt;</code> child node which specifies how the parent should be&nbsp;animated.</p>
+<p><img src="/articles/frame-animation-svg/circle.svg" alt="A moving circle"></p>
+<pre><code class="lang-xml"><span class="tag">&lt;<span class="title">svg</span> <span class="attribute">width</span>=<span class="value">"300px"</span> <span class="attribute">height</span>=<span class="value">"100px"</span>
+     <span class="attribute">xmlns</span>=<span class="value">"http://www.w3.org/2000/svg"</span> <span class="attribute">version</span>=<span class="value">"1.1"</span>
+     <span class="attribute">xmlns:xlink</span>=<span class="value">"http://www.w3.org/1999/xlink"</span> &gt;</span>
+
+    <span class="tag">&lt;<span class="title">rect</span> <span class="attribute">x</span>=<span class="value">"0"</span> <span class="attribute">y</span>=<span class="value">"0"</span>
+         <span class="attribute">width</span>=<span class="value">"300"</span> <span class="attribute">height</span>=<span class="value">"100"</span>
+         <span class="attribute">fill</span>=<span class="value">"none"</span> <span class="attribute">stroke</span>=<span class="value">"black"</span> <span class="attribute">stroke-width</span>=<span class="value">"1"</span> /&gt;</span>
+
+    <span class="tag">&lt;<span class="title">circle</span> <span class="attribute">cx</span>=<span class="value">"0"</span> <span class="attribute">cy</span>=<span class="value">"50"</span> <span class="attribute">r</span>=<span class="value">"15"</span>
+         <span class="attribute">fill</span>=<span class="value">"blue"</span> <span class="attribute">stroke</span>=<span class="value">"black"</span> <span class="attribute">stroke-width</span>=<span class="value">"1"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">animate</span> <span class="attribute">attributeName</span>=<span class="value">"cx"</span> <span class="attribute">from</span>=<span class="value">"0"</span>
+             <span class="attribute">to</span>=<span class="value">"250"</span> <span class="attribute">dur</span>=<span class="value">"5s"</span> <span class="attribute">repeatCount</span>=<span class="value">"indefinite"</span> /&gt;</span>
+    <span class="tag">&lt;/<span class="title">circle</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">svg</span>&gt;</span></code></pre>
+<p>You could compare it to key-frames. You specify the key-frames in svg and the browser will draw interpolated frames. This is called a time based&nbsp;animation.</p>
+<h2 id="frame-based-svg-animations">Frame based svg&nbsp;animations</h2>
+<p>Now there is something terrible wrong with embedding raster images in a vector image format. And it gets even worse if we try to make a frame-based animation using it (as opposed to time based animation). But we are going to do it&nbsp;anyway.</p>
+<p>There are multiple ways to switch from one image to the next. You could fade them in, move them quickly or make them visible/invisible. I tried the last method. This is done using the <code>&lt;set&gt;</code> tag. Using this it is possible to have the traditional frame-style&nbsp;animation.</p>
+<p><img src="/articles/frame-animation-svg/fast_flicker.svg" alt="Flickering text"></p>
+<pre><code class="lang-xml"><span class="tag">&lt;<span class="title">svg</span> <span class="attribute">width</span>=<span class="value">"10cm"</span> <span class="attribute">height</span>=<span class="value">"3cm"</span> <span class="attribute">viewBox</span>=<span class="value">"0 0 1000 300"</span> <span class="attribute">xmlns</span>=<span class="value">"http://www.w3.org/2000/svg"</span> <span class="attribute">xmlns:xlink</span>=<span class="value">"http://www.w3.org/1999/xlink"</span>&gt;</span>
+
+  <span class="comment">&lt;!-- Show outline of canvas using 'rect' element --&gt;</span>
+  <span class="tag">&lt;<span class="title">rect</span> <span class="attribute">x</span>=<span class="value">"1"</span> <span class="attribute">y</span>=<span class="value">"1"</span> <span class="attribute">width</span>=<span class="value">"998"</span> <span class="attribute">height</span>=<span class="value">"298"</span>
+        <span class="attribute">fill</span>=<span class="value">"none"</span> <span class="attribute">stroke</span>=<span class="value">"blue"</span> <span class="attribute">stroke-width</span>=<span class="value">"2"</span> /&gt;</span>
+
+  <span class="tag">&lt;<span class="title">text</span> <span class="attribute">x</span>=<span class="value">"250"</span> <span class="attribute">y</span>=<span class="value">"150"</span> <span class="attribute">font-family</span>=<span class="value">"Verdana"</span> <span class="attribute">font-size</span>=<span class="value">"55"</span> <span class="attribute">fill</span>=<span class="value">"black"</span> &gt;</span>
+    Frame 1
+    <span class="tag">&lt;<span class="title">set</span> <span class="attribute">id</span>=<span class="value">"show_frame0"</span> <span class="attribute">attributeName</span>=<span class="value">"visibility"</span> <span class="attribute">attributeType</span>=<span class="value">"<span class="caps">CSS</span>"</span> <span class="attribute">to</span>=<span class="value">"visible"</span>
+         <span class="attribute">begin</span>=<span class="value">"0ms; hide_frame3.end"</span> <span class="attribute">dur</span>=<span class="value">"300ms"</span> <span class="attribute">fill</span>=<span class="value">"freeze"</span>/&gt;</span>
+    <span class="tag">&lt;<span class="title">set</span> <span class="attribute">id</span>=<span class="value">"hide_frame0"</span> <span class="attribute">attributeName</span>=<span class="value">"visibility"</span> <span class="attribute">attributeType</span>=<span class="value">"<span class="caps">CSS</span>"</span> <span class="attribute">to</span>=<span class="value">"hidden"</span>
+         <span class="attribute">begin</span>=<span class="value">"show_frame0.end"</span> <span class="attribute">dur</span>=<span class="value">"1ms"</span> <span class="attribute">fill</span>=<span class="value">"freeze"</span>/&gt;</span>
+  <span class="tag">&lt;/<span class="title">text</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">text</span> <span class="attribute">x</span>=<span class="value">"250"</span> <span class="attribute">y</span>=<span class="value">"150"</span> <span class="attribute">font-family</span>=<span class="value">"Verdana"</span> <span class="attribute">font-size</span>=<span class="value">"55"</span> <span class="attribute">fill</span>=<span class="value">"red"</span> <span class="attribute">visibility</span>=<span class="value">"hidden"</span>&gt;</span>
+    Frame 2
+    <span class="tag">&lt;<span class="title">set</span> <span class="attribute">id</span>=<span class="value">"show_frame1"</span> <span class="attribute">attributeName</span>=<span class="value">"visibility"</span> <span class="attribute">attributeType</span>=<span class="value">"<span class="caps">CSS</span>"</span> <span class="attribute">to</span>=<span class="value">"visible"</span>
+         <span class="attribute">begin</span>=<span class="value">"hide_frame0.end"</span> <span class="attribute">dur</span>=<span class="value">"300ms"</span> <span class="attribute">fill</span>=<span class="value">"freeze"</span>/&gt;</span>
+    <span class="tag">&lt;<span class="title">set</span> <span class="attribute">id</span>=<span class="value">"hide_frame1"</span> <span class="attribute">attributeName</span>=<span class="value">"visibility"</span> <span class="attribute">attributeType</span>=<span class="value">"<span class="caps">CSS</span>"</span> <span class="attribute">to</span>=<span class="value">"hidden"</span>
+         <span class="attribute">begin</span>=<span class="value">"show_frame1.end"</span> <span class="attribute">dur</span>=<span class="value">"1ms"</span> <span class="attribute">fill</span>=<span class="value">"freeze"</span>/&gt;</span>
+  <span class="tag">&lt;/<span class="title">text</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">text</span> <span class="attribute">x</span>=<span class="value">"250"</span> <span class="attribute">y</span>=<span class="value">"150"</span> <span class="attribute">font-family</span>=<span class="value">"Verdana"</span> <span class="attribute">font-size</span>=<span class="value">"55"</span> <span class="attribute">fill</span>=<span class="value">"purple"</span> <span class="attribute">visibility</span>=<span class="value">"hidden"</span>&gt;</span>
+    Frame 3
+    <span class="tag">&lt;<span class="title">set</span> <span class="attribute">id</span>=<span class="value">"show_frame2"</span> <span class="attribute">attributeName</span>=<span class="value">"visibility"</span> <span class="attribute">attributeType</span>=<span class="value">"<span class="caps">CSS</span>"</span> <span class="attribute">to</span>=<span class="value">"visible"</span>
+         <span class="attribute">begin</span>=<span class="value">"hide_frame1.end"</span> <span class="attribute">dur</span>=<span class="value">"300ms"</span> <span class="attribute">fill</span>=<span class="value">"freeze"</span>/&gt;</span>
+    <span class="tag">&lt;<span class="title">set</span> <span class="attribute">id</span>=<span class="value">"hide_frame2"</span> <span class="attribute">attributeName</span>=<span class="value">"visibility"</span> <span class="attribute">attributeType</span>=<span class="value">"<span class="caps">CSS</span>"</span> <span class="attribute">to</span>=<span class="value">"hidden"</span>
+         <span class="attribute">begin</span>=<span class="value">"show_frame2.end"</span> <span class="attribute">dur</span>=<span class="value">"1ms"</span> <span class="attribute">fill</span>=<span class="value">"freeze"</span>/&gt;</span>
+  <span class="tag">&lt;/<span class="title">text</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">text</span> <span class="attribute">x</span>=<span class="value">"250"</span> <span class="attribute">y</span>=<span class="value">"150"</span> <span class="attribute">font-family</span>=<span class="value">"Verdana"</span> <span class="attribute">font-size</span>=<span class="value">"55"</span> <span class="attribute">fill</span>=<span class="value">"blue"</span> <span class="attribute">visibility</span>=<span class="value">"hidden"</span>&gt;</span>
+    Frame 4
+    <span class="tag">&lt;<span class="title">set</span> <span class="attribute">id</span>=<span class="value">"show_frame3"</span> <span class="attribute">attributeName</span>=<span class="value">"visibility"</span> <span class="attribute">attributeType</span>=<span class="value">"<span class="caps">CSS</span>"</span> <span class="attribute">to</span>=<span class="value">"visible"</span>
+         <span class="attribute">begin</span>=<span class="value">"hide_frame2.end"</span> <span class="attribute">dur</span>=<span class="value">"300ms"</span> <span class="attribute">fill</span>=<span class="value">"freeze"</span>/&gt;</span>
+    <span class="tag">&lt;<span class="title">set</span> <span class="attribute">id</span>=<span class="value">"hide_frame3"</span> <span class="attribute">attributeName</span>=<span class="value">"visibility"</span> <span class="attribute">attributeType</span>=<span class="value">"<span class="caps">CSS</span>"</span> <span class="attribute">to</span>=<span class="value">"hidden"</span>
+         <span class="attribute">begin</span>=<span class="value">"show_frame3.end"</span> <span class="attribute">dur</span>=<span class="value">"300ms"</span> <span class="attribute">fill</span>=<span class="value">"freeze"</span>/&gt;</span>
+  <span class="tag">&lt;/<span class="title">text</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">svg</span>&gt;</span></code></pre>
+<p>We can now manually create a frame based svg from multiple images. First encode it in base64 and in next step you add <code>&lt;set&gt;</code> tags to make the frames appear/disappear. This bouncing ball is a svg with 20 embedded png images. Feel free to download it and inspect it further using a text&nbsp;editor.</p>
+<p><img src="/articles/frame-animation-svg/bouncing_ball.svg" alt="A ball bouncing up and down"></p>
+<p>This bouncing ball has all the benefits of a png image but can be animated just like gif while not suffering from gif’s limitation (like alpha transparency). And that is pretty&nbsp;nice.</p>
+<h2 id="compression">Compression</h2>
+<p>How efficient/inefficient is the bouncing ball svg in saving space? Pretty&nbsp;bad.</p>
+<ul>
+<li>69.7kB (All 20 png images&nbsp;separate)</li>
+<li>106.1kB (Animated&nbsp;svg)</li>
+<li>65.6kB (Animated&nbsp;png)</li>
+</ul>
+<p>That is a rather harsh increase in size. The baddie is obviously the base64 encoding. Now there are ways to partly migrate this like serving a compressed svg or using http compression or using linked images instead of embedded images. Those things will not be discussed here. I rather wish to talk more about other things possible using&nbsp;svg.</p>
+<p><span class="caps">APNG</span> uses a technique called Inter-frame Optimization where only the changes between frames are stored. This technique can be applied to svg as&nbsp;well.</p>
+<p>Svg’s ability to use apng and jpeg simultaneously allows one to create a image where the transparent edges are png’s and the inner part of the image is a jpeg. This effectively allows you to create jpeg’s with transparent&nbsp;edges.</p>
+<p>Both of these techniques are applied to the following svg. (This is a 1920x1080 animation, feel free to watch it in&nbsp;full-screen)</p>
+<p><img src="/articles/frame-animation-svg/Pinkie%20Pie%27s%20Perplexity.svg" alt="Pinkie Pie looking at falling snow"></p>
+<p>The following two images where used as background. Note that the inner one is a highly compact jpeg. Jpeg’s are excellent for compressing photo-like images like this one. I had to make the inner background one pixel wider in all direction to compensate for tearing when zooming in the&nbsp;browser.</p>
+<p><img src="/articles/frame-animation-svg/base.reduced.outer.png" alt="Pinkie Pie looking at falling snow - outer background"></p>
+<p><img src="/articles/frame-animation-svg/base.reduced.inner.jpg" alt="Pinkie Pie looking at falling snow - inner background"></p>
+<p>The following frame is one of the 20 snow frames. This is the inter-frame optimization, the background in not stored in any of these&nbsp;frames.</p>
+<p><img src="/articles/frame-animation-svg/0016.png" alt="Pinkie Pie looking at falling snow - isolated snow"></p>
+<p>Now lets jump to the&nbsp;stats.</p>
+<ul>
+<li>40.<span class="caps">2MB</span> (All 20 png images separate, including background in every&nbsp;frame)</li>
+<li>3.<span class="caps">8MB</span> (All 20 png  snow frames + background png, background moved to a separate&nbsp;image)</li>
+<li>2.<span class="caps">7MB</span> (All 20 png snow frames + inner background jpeg (90% compression) + outer background&nbsp;png)</li>
+<li>3.<span class="caps">6MB</span> (All 20 png snow frames + inner background jpeg (90% compression) + outer background png embedded in a&nbsp;svg)</li>
+<li>16.<span class="caps">7MB</span> (<a href="/articles/frame-animation-svg/Pinkie%20Pie%27s%20Perplexity.png">Animated png</a>)</li>
+</ul>
+<p>Now we are talking. We managed to beat apng despite svg’s base64 encoding disadvantage. But is this a fair comparison? I used a lossy format embedded in the svg (And if you compare closely you will see I took some liberties regarding the snow too). The svg animation would be bigger then apng if the end result must be&nbsp;lossless.</p>
+<p>The ability to use jpeg’s lossy compression is a great advantage over&nbsp;apng.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Frame based animations in svg have some performance issues in all browsers and have bugs (Transparent parts are not always cleared in the blink rendering engine). It was not designed to be used this way. But it is definitely possible to use them and so it can be added to the list of formats suited for web&nbsp;animations.</p>
+<ul>
+<li>Gif</li>
+<li><span class="caps">APNG</span></li>
+<li>JavaScript (A lot of libraries and options&nbsp;here)</li>
+<li><span class="caps">SVG</span> time&nbsp;animation</li>
+<li><span class="caps">SVG</span> frame&nbsp;animation</li>
+<li><span class="caps">CSS3</span></li>
+<li>Flash</li>
+<li><span class="caps">HTML5</span>&nbsp;Video</li>
+</ul>
+<p>Every format has its ups and downs. Always consult <a href="http://caniuse.com/">caniuse.com</a>, the delivery platform (Most image hosting sites do not accept svg at the moment), your animation needs (like colour usage and transparency) and the tools&nbsp;available.</p>
+<p>At the singularity we will probably all use <span class="caps">HTML5</span> video for frame based animation (It was made for it!). But during this transition it is nice to have another&nbsp;option.</p>
+<p><a href="/articles/frame-animation-svg/svg-assembler-0.0.0.tar.gz">Here</a> is a script to create animated svg from a number of png frames. It is fairly simple and performs no optimizations. The optimized falling snow svg shown on this page required a lot of hand optimizations and customs&nbsp;scripts.</p>
+<p>Bonus: <a href="/articles/frame-animation-svg/merge-image-0.0.0.tar.gz">This</a> script might help if you are seriously going to perform manual optimizations like cutting away the background. It performs a 3-way image merge normally, but you can use it to cut away a background from a frame too. First set HIDE_BASE in the code to false and now call the script with 3 arguments. First argument is the output, the frame that will be without the background. The second argument is the full background (the <span class="caps">BASE</span>). The third will be the frame with the unwanted background. Perform it for all frames and put the background behind them all in the embedded svg file and you have some rudimentary&nbsp;optimization.</p>
+</section>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="nav"><a href="/">« Full blog</a></div>
+        <section class="about">
+        </section>
+        <section class="copy">
+          <p>&copy; 2014 Someone &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>
