@@ -1,0 +1,7 @@
+---- BEGIN SIGNED MESSAGE ----
+distributed-likes: true
+address: D8cREPvkCJYnucpy7BvBaV3HWYEsdJKzdC
+hint-path: http://triflingmemory.github.io/articles/distributed-likes/strongest-princess.png
+sha256sum: 9a71a0e6c030c04ae1f5cc6573c2ba032c9beccd7ed847d2fe2c0da4880b9e9d
+---- END SIGNED MESSAGE ----
+signature: H5Kxc4jRK0OPk+tzy61oAG9BINJRcGXmqfXv2HaUq4WdvKikXrirSAmYn1RYOAR8+vN3Ko02WDAr2LhkU5yawhE=

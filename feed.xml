@@ -2,25 +2,76 @@
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Insignificant</title>
-    <atom:link href="http://localhost:8080/feed.xml" rel="self" type="application/rss+xml"></atom:link>
-    <link>http://localhost:8080</link>
+    <atom:link href="http://triflingmemory.github.io//feed.xml" rel="self" type="application/rss+xml"></atom:link>
+    <link>http://triflingmemory.github.io/</link>
     <description>Some infrequently updated blog</description>
-    <pubDate>Fri, 13 Dec 2013 01:00:00 +0100</pubDate>
+    <pubDate>Thu, 22 May 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
     <item>
+      <title>Distributed likes</title>
+      <link>http://triflingmemory.github.io//articles/distributed-likes/</link>
+      <pubDate>Thu, 22 May 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://triflingmemory.github.io//articles/distributed-likes/</guid>
+      <author></author>
+      <description>&lt;p&gt;Random thoughts: Using crypto-concurrency to store data.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;distributed-likes&quot;&gt;Distributed likes&lt;/h2&gt;
+&lt;p&gt;Most social websites resolve around finding the good little bits hidden around the internet and showing them to the people who might like them.&lt;/p&gt;
+&lt;p&gt;This is normally done using a like/up-vote/stumble/dig or whatever button. A central authority collects all the likes/votes/stumbles/dugs or whatever and processes them.&lt;/p&gt;
+&lt;p&gt;We could replace that system by assigning a unique crypto-currency address to every piece of distributed content. Sending crypto-currency to that address equals a upvote. It is now up to any 3th party to aggregate the “likes” and provide suggestions to similar content.&lt;/p&gt;
+&lt;p&gt;Enabling likes for your digital content requires you to do two things. Generate a new unique crypto-currency address and paste this address on your content. Like this (look at the lower left corner of the comic):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/distributed-likes/strongest-princess.svg&quot; alt=&quot;The strongest princess&quot;&gt;&lt;/p&gt;
+&lt;p&gt;You should use a different address for every piece of likeable content. There are exceptions for this, if you distribute the same content in different formats or if you distribute a new minor version of the same content. You are allowed to use the same address in those cases. Deviate work from a different artist MUST always use a different address.&lt;/p&gt;
+&lt;p&gt;In addition pasting this address you need to sign your content. This facilitates address -&amp;gt; content lookups. I am not about the best way to do this. It might look like this: &lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://triflingmemory.github.io/articles/distributed-likes/strongest-princess.svg.signed.txt&quot;&gt;strongest-princess.svg.signed.txt&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---- BEGIN SIGNED MESSAGE ----
+distributed-likes: true
+address: D8cREPvkCJYnucpy7BvBaV3HWYEsdJKzdC
+hint-path: http://triflingmemory.github.io/articles/distributed-likes/strongest-princess.svg
+sha256sum: 224443ad2e4278d6fb44c6b03f0468af52a9d42710023129aea3baa6ed643d50
+---- END SIGNED MESSAGE ----
+signature: IIG6sxnFdlyHkuQU2g8Kf1+AKnO6Z0SXX8JSE7UNnRtZUPoRrRnh3NqISpydE2wAbeL9CWATEpmey6pLaRZf7kw=&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href=&quot;http://triflingmemory.github.io/articles/distributed-likes/strongest-princess.png.signed.txt&quot;&gt;strongest-princess.png.signed.txt&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---- BEGIN SIGNED MESSAGE ----
+distributed-likes: true
+address: D8cREPvkCJYnucpy7BvBaV3HWYEsdJKzdC
+hint-path: http://triflingmemory.github.io/articles/distributed-likes/strongest-princess.png
+sha256sum: 9a71a0e6c030c04ae1f5cc6573c2ba032c9beccd7ed847d2fe2c0da4880b9e9d
+---- END SIGNED MESSAGE ----
+signature: H5Kxc4jRK0OPk+tzy61oAG9BINJRcGXmqfXv2HaUq4WdvKikXrirSAmYn1RYOAR8+vN3Ko02WDAr2LhkU5yawhE=&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Everything between the BEGIN and END block is signed. This signed message does not need to be visible to any user. It only needs to be indexed by the search engines.&lt;/p&gt;
+&lt;p&gt;The good:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;No single central authority can influence the votes.&lt;/li&gt;
+&lt;li&gt;Any digital content can be “like-able”. Sound/text/links.&lt;/li&gt;
+&lt;li&gt;Duplicated content on different sites (which still has the same associated address) still receives upvotes in the same bucket.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I consider that last point its greatest benefit.&lt;/p&gt;
+&lt;p&gt;The bad:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Everybody can influence the votes.&lt;/li&gt;
+&lt;li&gt;Crypto-currency was not designed as global upvote system. I used dogecoin address above, but there might exist more suited currencies.&lt;/li&gt;
+&lt;li&gt;Doing a reverse search (crypto-currency address to content) is not simple. You need to employ a search engine and hope the content provider put the address in plain text.&lt;/li&gt;
+&lt;li&gt;No analysis and aggregation software for something like this exist. Creating this software requires tackling a few hard challenges.&lt;/li&gt;
+&lt;li&gt;You need crypto-currency software and crypto-currency to like something.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A lot of research needs to be done if this is feasible.&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>Frame based SVG animation</title>
-      <link>http://localhost:8080/articles/frame-animation-svg/</link>
+      <link>http://triflingmemory.github.io//articles/frame-animation-svg/</link>
       <pubDate>Fri, 13 Dec 2013 01:00:00 +0100</pubDate>
-      <guid isPermaLink="true">http://localhost:8080/articles/frame-animation-svg/</guid>
+      <guid isPermaLink="true">http://triflingmemory.github.io//articles/frame-animation-svg/</guid>
       <author></author>
       <description>&lt;p&gt;SVG is very powerful. You could embed different image types like jpeg’s and png’s in it. Svg supports animation too, using these techniques it is possible to do crazy things like make animated jpeg’s. In this post I will show you how it is possible to create frame based animations in svg.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://localhost:8080/articles/frame-animation-svg/bouncing_ball.svg&quot; alt=&quot;A ball bouncing up and down&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/bouncing_ball.svg&quot; alt=&quot;A ball bouncing up and down&quot;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;First I’ll show how to embed rasters in svg and how to animate in svg. In the last step we combine both to make frame based animation like gif’s or video’s.&lt;/p&gt;
 &lt;h2 id=&quot;adding-rasters-to-the-svg&quot;&gt;Adding rasters to the SVG&lt;/h2&gt;
 &lt;p&gt;Svg is a text based format but supports embedding binary data using base64 encoding. The image below is a png embedded in a svg.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://localhost:8080/articles/frame-animation-svg/derp.svg&quot; alt=&quot;Derpface&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/derp.svg&quot; alt=&quot;Derpface&quot;&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-xml&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;svg&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;width&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;320&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;height&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;240&quot;&lt;/span&gt;
      &lt;span class=&quot;attribute&quot;&gt;xmlns&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;http://www.w3.org/2000/svg&quot;&lt;/span&gt;
      &lt;span class=&quot;attribute&quot;&gt;xmlns:xlink&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;http://www.w3.org/1999/xlink&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -31,7 +82,7 @@
 &lt;p&gt;Pretty straightforward. Lets move to animation.&lt;/p&gt;
 &lt;h2 id=&quot;time-based-svg-animations&quot;&gt;Time based svg animations&lt;/h2&gt;
 &lt;p&gt;SVG are normally made out of a set of graphical vector elements like lines curves and other geometrical shapes. To animate the elements you add a &lt;code&gt;&amp;lt;animate&amp;gt;&lt;/code&gt; child node which specifies how the parent should be animated.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://localhost:8080/articles/frame-animation-svg/circle.svg&quot; alt=&quot;A moving circle&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/circle.svg&quot; alt=&quot;A moving circle&quot;&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-xml&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;svg&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;width&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;300px&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;height&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;100px&quot;&lt;/span&gt;
      &lt;span class=&quot;attribute&quot;&gt;xmlns&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;http://www.w3.org/2000/svg&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;version&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;1.1&quot;&lt;/span&gt;
      &lt;span class=&quot;attribute&quot;&gt;xmlns:xlink&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;http://www.w3.org/1999/xlink&quot;&lt;/span&gt; &amp;gt;&lt;/span&gt;
@@ -51,7 +102,7 @@
 &lt;h2 id=&quot;frame-based-svg-animations&quot;&gt;Frame based svg animations&lt;/h2&gt;
 &lt;p&gt;Now there is something terrible wrong with embedding raster images in a vector image format. And it gets even worse if we try to make a frame-based animation using it (as opposed to time based animation). But we are going to do it anyway.&lt;/p&gt;
 &lt;p&gt;There are multiple ways to switch from one image to the next. You could fade them in, move them quickly or make them visible/invisible. I tried the last method. This is done using the &lt;code&gt;&amp;lt;set&amp;gt;&lt;/code&gt; tag. Using this it is possible to have the traditional frame-style animation.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://localhost:8080/articles/frame-animation-svg/fast_flicker.svg&quot; alt=&quot;Flickering text&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/fast_flicker.svg&quot; alt=&quot;Flickering text&quot;&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-xml&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;svg&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;width&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;10cm&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;height&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;3cm&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;viewBox&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;0 0 1000 300&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;xmlns&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;http://www.w3.org/2000/svg&quot;&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;xmlns:xlink&lt;/span&gt;=&lt;span class=&quot;value&quot;&gt;&quot;http://www.w3.org/1999/xlink&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
 
   &lt;span class=&quot;comment&quot;&gt;&amp;lt;!-- Show outline of canvas using 'rect' element --&amp;gt;&lt;/span&gt;
@@ -91,7 +142,7 @@
   &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;text&lt;/span&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;title&quot;&gt;svg&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We can now manually create a frame based svg from multiple images. First encode it in base64 and in next step you add &lt;code&gt;&amp;lt;set&amp;gt;&lt;/code&gt; tags to make the frames appear/disappear. This bouncing ball is a svg with 20 embedded png images. Feel free to download it and inspect it further using a text editor.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://localhost:8080/articles/frame-animation-svg/bouncing_ball.svg&quot; alt=&quot;A ball bouncing up and down&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/bouncing_ball.svg&quot; alt=&quot;A ball bouncing up and down&quot;&gt;&lt;/p&gt;
 &lt;p&gt;This bouncing ball has all the benefits of a png image but can be animated just like gif while not suffering from gif’s limitation (like alpha transparency). And that is pretty nice.&lt;/p&gt;
 &lt;h2 id=&quot;compression&quot;&gt;Compression&lt;/h2&gt;
 &lt;p&gt;How efficient/inefficient is the bouncing ball svg in saving space? Pretty bad.&lt;/p&gt;
@@ -104,19 +155,19 @@
 &lt;p&gt;APNG uses a technique called Inter-frame Optimization where only the changes between frames are stored. This technique can be applied to svg as well.&lt;/p&gt;
 &lt;p&gt;Svg’s ability to use apng and jpeg simultaneously allows one to create a image where the transparent edges are png’s and the inner part of the image is a jpeg. This effectively allows you to create jpeg’s with transparent edges.&lt;/p&gt;
 &lt;p&gt;Both of these techniques are applied to the following svg. (This is a 1920x1080 animation, feel free to watch it in full-screen)&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://localhost:8080/articles/frame-animation-svg/Pinkie%20Pie%27s%20Perplexity.svg&quot; alt=&quot;Pinkie Pie looking at falling snow&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/Pinkie%20Pie%27s%20Perplexity.svg&quot; alt=&quot;Pinkie Pie looking at falling snow&quot;&gt;&lt;/p&gt;
 &lt;p&gt;The following two images where used as background. Note that the inner one is a highly compact jpeg. Jpeg’s are excellent for compressing photo-like images like this one. I had to make the inner background one pixel wider in all direction to compensate for tearing when zooming in the browser.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://localhost:8080/articles/frame-animation-svg/base.reduced.outer.png&quot; alt=&quot;Pinkie Pie looking at falling snow - outer background&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://localhost:8080/articles/frame-animation-svg/base.reduced.inner.jpg&quot; alt=&quot;Pinkie Pie looking at falling snow - inner background&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/base.reduced.outer.png&quot; alt=&quot;Pinkie Pie looking at falling snow - outer background&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/base.reduced.inner.jpg&quot; alt=&quot;Pinkie Pie looking at falling snow - inner background&quot;&gt;&lt;/p&gt;
 &lt;p&gt;The following frame is one of the 20 snow frames. This is the inter-frame optimization, the background in not stored in any of these frames.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://localhost:8080/articles/frame-animation-svg/0016.png&quot; alt=&quot;Pinkie Pie looking at falling snow - isolated snow&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/0016.png&quot; alt=&quot;Pinkie Pie looking at falling snow - isolated snow&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Now lets jump to the stats.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;40.2MB (All 20 png images separate, including background in every frame)&lt;/li&gt;
 &lt;li&gt;3.8MB (All 20 png  snow frames + background png, background moved to a separate image)&lt;/li&gt;
 &lt;li&gt;2.7MB (All 20 png snow frames + inner background jpeg (90% compression) + outer background png)&lt;/li&gt;
 &lt;li&gt;3.6MB (All 20 png snow frames + inner background jpeg (90% compression) + outer background png embedded in a svg)&lt;/li&gt;
-&lt;li&gt;16.7MB (&lt;a href=&quot;http://localhost:8080/articles/frame-animation-svg/Pinkie%20Pie%27s%20Perplexity.png&quot;&gt;Animated png&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;16.7MB (&lt;a href=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/Pinkie%20Pie%27s%20Perplexity.png&quot;&gt;Animated png&lt;/a&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Now we are talking. We managed to beat apng despite svg’s base64 encoding disadvantage. But is this a fair comparison? I used a lossy format embedded in the svg (And if you compare closely you will see I took some liberties regarding the snow too). The svg animation would be bigger then apng if the end result must be lossless.&lt;/p&gt;
 &lt;p&gt;The ability to use jpeg’s lossy compression is a great advantage over apng.&lt;/p&gt;
@@ -134,8 +185,8 @@
 &lt;/ul&gt;
 &lt;p&gt;Every format has its ups and downs. Always consult &lt;a href=&quot;http://caniuse.com/&quot;&gt;caniuse.com&lt;/a&gt;, the delivery platform (Most image hosting sites do not accept svg at the moment), your animation needs (like colour usage and transparency) and the tools available.&lt;/p&gt;
 &lt;p&gt;At the singularity we will probably all use HTML5 video for frame based animation (It was made for it!). But during this transition it is nice to have another option.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://localhost:8080/articles/frame-animation-svg/svg-assembler-0.0.0.tar.gz&quot;&gt;Here&lt;/a&gt; is a script to create animated svg from a number of png frames. It is fairly simple and performs no optimizations. The optimized falling snow svg shown on this page required a lot of hand optimizations and customs scripts.&lt;/p&gt;
-&lt;p&gt;Bonus: &lt;a href=&quot;http://localhost:8080/articles/frame-animation-svg/merge-image-0.0.0.tar.gz&quot;&gt;This&lt;/a&gt; script might help if you are seriously going to perform manual optimizations like cutting away the background. It performs a 3-way image merge normally, but you can use it to cut away a background from a frame too. First set HIDE_BASE in the code to false and now call the script with 3 arguments. First argument is the output, the frame that will be without the background. The second argument is the full background (the BASE). The third will be the frame with the unwanted background. Perform it for all frames and put the background behind them all in the embedded svg file and you have some rudimentary optimization.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/svg-assembler-0.0.0.tar.gz&quot;&gt;Here&lt;/a&gt; is a script to create animated svg from a number of png frames. It is fairly simple and performs no optimizations. The optimized falling snow svg shown on this page required a lot of hand optimizations and customs scripts.&lt;/p&gt;
+&lt;p&gt;Bonus: &lt;a href=&quot;http://triflingmemory.github.io/articles/frame-animation-svg/merge-image-0.0.0.tar.gz&quot;&gt;This&lt;/a&gt; script might help if you are seriously going to perform manual optimizations like cutting away the background. It performs a 3-way image merge normally, but you can use it to cut away a background from a frame too. First set HIDE_BASE in the code to false and now call the script with 3 arguments. First argument is the output, the frame that will be without the background. The second argument is the full background (the BASE). The third will be the frame with the unwanted background. Perform it for all frames and put the background behind them all in the embedded svg file and you have some rudimentary optimization.&lt;/p&gt;
 </description>
     </item>
   </channel>
